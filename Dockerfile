@@ -12,3 +12,4 @@ RUN pip install requests
 
 #Run the application
 CMD ["python", "weather_check.py"]
+

@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         // Define environment variables here
+        DOCKER_HOST = "tcp://172.19.0.2:2375" // Correct Docker Host URI
         DOCKER_IMAGE = "weather-app"
     }
 
