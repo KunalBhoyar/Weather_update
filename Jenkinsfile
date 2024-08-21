@@ -1,11 +1,9 @@
 pipeline {
     agent any  // This specifies that the pipeline can run on any available agent
 
-    environment {
-        // Define environment variables here
-        // DOCKER_HOST = "tcp://172.19.0.2:2375" // Use plain HTTP connection
-        // DOCKER_TLS_VERIFY = "0" // Disable TLS verification (forces HTTP)
-        DOCKER_HOST="tcp://socat-proxy:2376"
+     environment {
+        DOCKER_HOST = "tcp://socat-proxy:2375"  // Use port 2375, which is working
+        DOCKER_TLS_VERIFY = "0"  // Disable TLS (forces HTTP)
         DOCKER_IMAGE = "weather-app"
     }
 
