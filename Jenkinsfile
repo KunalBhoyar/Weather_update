@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         // Define environment variables here
-        DOCKER_HOST = "tcp://172.19.0.2:2375" // Use plain HTTP connection
-        DOCKER_TLS_VERIFY = "0" // Disable TLS verification (forces HTTP)
+        // DOCKER_HOST = "tcp://172.19.0.2:2375" // Use plain HTTP connection
+        // DOCKER_TLS_VERIFY = "0" // Disable TLS verification (forces HTTP)
         DOCKER_IMAGE = "weather-app"
     }
 
