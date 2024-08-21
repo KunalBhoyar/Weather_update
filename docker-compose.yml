@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  weather-app:
+    image: weather-app
+    ports:
+      - "8000:8000"
+    environment:
+      - WEATHER_API_KEY=68ffdfd39677427aad6233354242008
