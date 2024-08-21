@@ -11,12 +11,14 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Build the Docker image
                 script {
-                    docker.build("${env.DOCKER_IMAGE}")
+                    docker.withServer('tcp://172.19.0.2:2375', '') {
+                        docker.build("${env.DOCKER_IMAGE}")
+                    }
                 }
             }
         }
+
 
         stage('Test') {
             steps {
