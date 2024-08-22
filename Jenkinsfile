@@ -5,7 +5,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    docker.withServer('tcp://socat-proxy:2375', '') {
+                    docker.withServer('tcp://172.19.0.2:2375', '') {
                         docker.build('weather-app')
                     }
                 }
