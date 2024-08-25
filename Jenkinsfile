@@ -1,8 +1,13 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'docker/compose:latest'  // Using the official Docker Compose image
+            args '-v /var/run/docker.sock:/var/run/docker.sock'  // Mount Docker socket for Docker commands
+        }
+    }
 
     environment {
-        WEATHER_API_KEY = credentials('WEATHER_API_KEY')  // Make sure this matches the exact ID in Jenkins
+        WEATHER_API_KEY = credentials('WEATHER_API_KEY')  // Assuming you've stored your API key in Jenkins credentials with this ID
     }
 
     stages {
