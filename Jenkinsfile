@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Specify the Git branch to build')
+    }
+
     environment {
         WEATHER_API_KEY = credentials('WEATHER_API_KEY')
     }
