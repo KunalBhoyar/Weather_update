@@ -50,9 +50,9 @@ pipeline {
     }
 
     post {
-        always {
-            sh 'docker-compose down'
-        }
+        // always {
+        //     sh 'docker-compose down'
+        // }
         success {
             echo 'Pipeline completed successfully!'
         }
