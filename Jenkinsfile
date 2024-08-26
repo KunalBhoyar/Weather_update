@@ -1,39 +1,55 @@
 pipeline {
     agent any
 
+    environment {
+        WEATHER_API_KEY = credentials('WEATHER_API_KEY')  // Ensure this ID matches the credentials in Jenkins
+    }
+
     stages {
-        stage('Build') {
+        stage('Clean Workspace') {
+            steps {
+                // Clean the workspace before starting
+                cleanWs()
+            }
+        }
+
+        stage('Clone Repository') {
+            steps {
+                // Clone the specified branch from your Git repository
+                git branch: 'feature/jenkins', credentialsId: 'GITHUB_PAT', url: 'https://github.com/KunalBhoyar/Weather_update.git'
+            }
+        }
+
+        stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build('weather-app')
+                    // Build the Docker image using Docker Compose
+                    sh 'docker-compose build'
                 }
             }
         }
 
-        stage('Test') {
+        stage('Run Application') {
             steps {
-                echo 'Running tests...'
-                // Add any test steps here, if necessary
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo 'Deploying the application...'
-                sh "docker run -d -p 5001:5000 weather-app"
+                script {
+                    // Run the application using Docker Compose
+                    sh 'docker-compose up -d'
+                }
             }
         }
     }
 
     post {
         always {
-            echo 'This will always run'
+            // Clean up Docker containers after the pipeline runs
+            echo 'Cleaning up Docker containers...'
+            sh 'docker-compose down'
         }
         success {
-            echo 'Build was a success!'
+            echo 'Pipeline completed successfully!'
         }
         failure {
-            echo 'Build failed!'
+            echo 'Pipeline failed. Please check the logs.'
         }
     }
 }
