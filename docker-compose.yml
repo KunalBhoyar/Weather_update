@@ -5,10 +5,8 @@ services:
     build: .
     ports:
       - "6500:5000"
-    secrets:
-      - weather_api_key
     environment:
-      WEATHER_API_KEY_FILE: /run/secrets/weather_api_key
+      WEATHER_API_KEY: "${WEATHER_API_KEY}"  # Directly use the environment variable passed by Jenkins
     deploy:
       replicas: 1
       resources:
@@ -17,7 +15,3 @@ services:
           memory: "512M"
       restart_policy:
         condition: on-failure
-
-secrets:
-  weather_api_key:
-    file: ./secrets/weather_api_key
