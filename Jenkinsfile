@@ -1,29 +1,31 @@
 pipeline {
     agent any
 
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Specify the Git branch to build')
+    }
+
     environment {
-        WEATHER_API_KEY = credentials('WEATHER_API_KEY')  // Ensure this ID matches the credentials in Jenkins
+        WEATHER_API_KEY = credentials('WEATHER_API_KEY')
     }
 
     stages {
         stage('Clean Workspace') {
             steps {
-                // Clean the workspace before starting
-                cleanWs()
+                cleanWs()  // Clean the workspace before starting
             }
         }
 
         stage('Clone Repository') {
             steps {
-                // Clone the specified branch from your Git repository
-                git branch: 'feature/jenkins', credentialsId: 'GITHUB_PAT', url: 'https://github.com/KunalBhoyar/Weather_update.git'
+                // Use the parameterized branch name
+                git branch: "${params.BRANCH_NAME}", credentialsId: 'GITHUB_PAT', url: 'https://github.com/KunalBhoyar/Weather_update.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Build the Docker image using Docker Compose
                     sh 'docker-compose build'
                 }
             }
@@ -32,7 +34,6 @@ pipeline {
         stage('Run Application') {
             steps {
                 script {
-                    // Run the application using Docker Compose
                     sh 'docker-compose up -d'
                 }
             }
@@ -41,7 +42,6 @@ pipeline {
 
     post {
         always {
-            // Clean up Docker containers after the pipeline runs
             echo 'Cleaning up Docker containers...'
             sh 'docker-compose down'
         }
