@@ -1,0 +1,17 @@
+- name: Copy application files to the server
+  copy:
+    src: ./weather-app/
+    dest: /home/ubuntu/weather-app/
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+
+- name: Build the Docker image for the weather app
+  shell: docker-compose build
+  args:
+    chdir: /home/ubuntu/weather-app/
+
+- name: Run the weather app container
+  shell: docker-compose up -d
+  args:
+    chdir: /home/ubuntu/weather-app/
